@@ -39,6 +39,7 @@ EXPOSE 22
 
 RUN apt-get update && apt-get install -y --no-install-recommends xvfb x11vnc net-tools lxde supervisor vim ssh nodejs
 
+
 # SSH experiment
 RUN echo 'root:test' | chpasswd
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
@@ -52,6 +53,22 @@ COPY ./supervisord.conf /etc/supervisord.conf
 # setup entrypoint
 COPY ./ros_entrypoint.sh /
 
+# Setup carla 
+RUN apt-get install python-pip -y
+RUN pip install -U pip
+RUN pip install carla
+RUN pip install pygame
+RUN sudo apt-get install software-properties-common -y
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1AF1527DE64CB8D9
+RUN sudo add-apt-repository "deb [arch=amd64] http://dist.carla.org/carla $(lsb_release -sc) main"
+RUN sudo apt-get update # Update the Debian package index
+RUN sudo apt-get install carla-ros-bridge -y
+
+COPY ./rviz.bash /rviz.bash
+
+
 ENTRYPOINT ["/ros_entrypoint.sh"]
 CMD ["bash"]
+
+
 

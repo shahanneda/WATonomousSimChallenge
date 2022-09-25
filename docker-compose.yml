@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  shahanneda-carla-client:
+    build: .
+    container_name: "shahanneda-carla-client"
+    ports:
+      - "6833:5900"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    depends_on:
+      - "carla"
+  carla:
+    image: carlasim/carla:0.9.13
+    command: /bin/bash ./CarlaUE4.sh Town02 -RenderOffScreen -quality-level=Low -nosound -carla-server
+    #command: /bin/bash ./CarlaUE4.sh -RenderOffScreen
+    #command: /bin/bash -c “./CarlaUE4.sh -RenderOffScreen -quality-level=Low -nosound -carla-server”
+
+
