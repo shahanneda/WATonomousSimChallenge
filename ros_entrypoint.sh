@@ -1,8 +1,9 @@
 #!bin/bash
 
-set -e
+/usr/bin/supervisord
 
+set -e
 # setup ros environment
 source "/opt/ros/$ROS_DISTRO/setup.bash" --
 exec "$@"
-/etc/init.d/ssh start
+

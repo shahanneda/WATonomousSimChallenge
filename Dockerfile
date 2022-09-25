@@ -30,11 +30,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-melodic-ros-core=1.4.1-0* \
     && rm -rf /var/lib/apt/lists/*
 
-# setup entrypoint
-COPY ./ros_entrypoint.sh /
-
-ENTRYPOINT ["/ros_entrypoint.sh"]
-CMD ["bash"]
 
 EXPOSE 5900
 EXPOSE 6731
@@ -44,8 +39,19 @@ EXPOSE 22
 
 RUN apt-get update && apt-get install -y --no-install-recommends xvfb x11vnc net-tools lxde supervisor vim ssh nodejs
 
+# SSH experiment
 RUN echo 'root:test' | chpasswd
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 RUN /etc/init.d/ssh start
 
+# Supervisored
+
+COPY ./supervisord.conf /etc/supervisord.conf
+
+
+# setup entrypoint
+COPY ./ros_entrypoint.sh /
+
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["bash"]
 
