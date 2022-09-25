@@ -31,10 +31,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 
-EXPOSE 5900
-EXPOSE 6731
 EXPOSE 6833
-EXPOSE 22
 
 
 RUN apt-get update && apt-get install -y --no-install-recommends xvfb x11vnc net-tools lxde supervisor vim ssh nodejs
@@ -44,6 +41,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends xvfb x11vnc net
 RUN echo 'root:test' | chpasswd
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 RUN /etc/init.d/ssh start
+EXPOSE 22
 
 # Supervisored
 

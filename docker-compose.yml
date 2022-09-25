@@ -12,7 +12,5 @@ services:
   carla:
     image: carlasim/carla:0.9.13
     command: /bin/bash ./CarlaUE4.sh Town02 -RenderOffScreen -quality-level=Low -nosound -carla-server
-    #command: /bin/bash ./CarlaUE4.sh -RenderOffScreen
-    #command: /bin/bash -c “./CarlaUE4.sh -RenderOffScreen -quality-level=Low -nosound -carla-server”
 
 
