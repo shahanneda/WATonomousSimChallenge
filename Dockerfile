@@ -25,16 +25,17 @@ ENV LC_ALL C.UTF-8
 
 ENV ROS_DISTRO melodic
 
+
 # install ros packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-melodic-ros-core=1.4.1-0* \
     && rm -rf /var/lib/apt/lists/*
 
+#END ROS Defaults
 
 EXPOSE 6833
 
-
-RUN apt-get update && apt-get install -y --no-install-recommends xvfb x11vnc net-tools lxde supervisor vim ssh nodejs
+RUN apt-get update && apt-get install -y --no-install-recommends xvfb x11vnc net-tools lxde supervisor vim ssh
 
 
 # SSH experiment
@@ -44,11 +45,9 @@ RUN /etc/init.d/ssh start
 EXPOSE 22
 
 # Supervisored
-
 COPY ./supervisord.conf /etc/supervisord.conf
 
-
-# setup entrypoint
+# setup ros entrypoint
 COPY ./ros_entrypoint.sh /
 
 # Setup carla 
@@ -62,6 +61,7 @@ RUN sudo add-apt-repository "deb [arch=amd64] http://dist.carla.org/carla $(lsb_
 RUN sudo apt-get update # Update the Debian package index
 RUN sudo apt-get install carla-ros-bridge -y
 
+# Helper script for starting rviz
 COPY ./rviz.bash /rviz.bash
 
 
